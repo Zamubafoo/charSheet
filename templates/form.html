@@ -1,0 +1,35 @@
+<form id="pcDetails" action="{{ url_for("characterSheet") }}" method="post">
+
+        <div class="name label">Name:</div>
+        <input id="pcName" class="name value" type="text" name="pcName" placeholder="Naga the Serpent">
+        <div class="alignment label">Alignment:</div>
+        <select name="pcAlign" id="pcAlign" class="alignment value" form="pcDetails">
+            <option value="LG">LG</option>
+            <option value="NG">NG</option>
+            <option value="CG">CG</option>
+            <option value="LN">LN</option>
+            <option value="TN">TN</option>
+            <option value="CN">CN</option>
+            <option value="LE">LE</option>
+            <option value="NE">NE</option>
+            <option value="CE">CE</option>
+        </select>
+        <div class="deity label">Deity:</div>
+        <input id="pcDeity" type="text" class="deity value" name="pcDeity" placeholder="Wuakeen">
+
+        <div class="str label">Strength:</div>
+        <input type="number" name="pcStr">
+        <div class="dex label">Dexterity:</div>
+        <input type="number" name="pcDex">
+        <div class="con label">Constitution:</div>
+        <input type="number" name="pcCon">
+        <div class="int label">Intelligence:</div>
+        <input type="number" name="pcInt">
+        <div class="wis label">Wisdom:</div>
+        <input type="number" name="pcWis">
+        <div class="cha label">Charisma:</div>
+        <input type="number" name="pcCha">
+
+
+    <input type="submit">
+</form>
