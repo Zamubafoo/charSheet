@@ -1,0 +1,236 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <title>{{ PC.name }} - 5e Character Sheet</title>
+</head>
+<body>
+    <div class="sheet">
+        <div class="details">
+            <div class="name label">Name:</div>
+            <div class="name value">{{ PC.name }}</div>
+            <div class="race label">Race:</div>
+            <div class="race value">{{ PC.race['name'] }}</div>
+            <div class="class label">Class:</div>
+            <div class="class value">{{ PC.characterClass['name'] }}</div>
+            <div class="exp label">Experience:</div>
+            <div class="exp value">{{ PC.XP }}</div>
+            <div class="alignment label">Alignment:</div>
+            <div class="alignment value">{{ PC.align }}</div>
+            <div class="deity label">Deity:</div>
+            <div class="deity value">{{ PC.deity }}</div>
+            <div class="background label">Background:</div>
+            <div class="background value">{{ PC.background['name'] }}</div>
+            <div class="sex label">Sex:</div>
+            <div class="sex value">{{ PC.sex }}</div>
+            <div class="hair label">Hair:</div>
+            <div class="hair value">{{ PC.hair }}</div>
+            <div class="eye label">Eye:</div>
+            <div class="eye value">{{ PC.eye }}</div>
+            <div class="size label">Size:</div>
+            <div class="size value">{{ PC.race['size'] }}</div>
+            <div class="height label">Height:</div>
+            <div class="height value">{{ PC.height }}</div>
+            <div class="weight label">Weight:</div>
+            <div class="weight value">{{ PC.weight }}</div>
+        </div>
+        <div class="stat-bar">
+            <div class="ability">
+                <div class="header">Abilities</div>
+                {% for stat in PC._stats %}
+                <div class="stat {{stat}}l">
+                    <div class="title {{stat}}">{{ PC.stats[stat].proper() }}</div>
+                    <div class="score">{{ PC.stats[stat].value }}</div>
+                    <div class="mod">{{ PC.stats[stat].mod() }}</div>
+                    <div class="save">{{ PC.stats[stat].mod()+10 }}</div>
+                    <div class="label mod">Mod</div>
+                    <div class="label save">Save</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="passive">
+                <div class="label insight">
+                    PI
+                </div>
+                <div class="insight value">{{ PC.skills['Insight'].value + 10 }}</div>
+                <div class="label perception">
+                    PP
+                </div>
+                <div class="perception value">{{ PC.skills['Perception'].value + 10 }}</div>
+            </div>
+            <div class="proficiency">
+                <div class="label">Proficiency</div>
+                <div class="value">{{ PC.profBonus() }}</div>
+            </div>
+            <div class="inspiration">
+                <div class="label">Inspiration</div>
+                <div class="value"></div>
+            </div>
+        </div>
+        <div class="combat left">
+            <div class="initiative">
+                <div class="title">Initiative</div>
+                <div class="value">{{ PC.stats['dex'].mod() }}</div>
+            </div>
+            <div class="armorclass">
+                <div class="title">
+                    Armor Class
+                </div>
+                <div class="total">
+                    {{ PC.AC['total'] }}
+                </div>
+                <div class="comp armor">
+                    {{ PC.AC['armor'] }}
+                </div>
+                <div class="label armor">Armor</div>
+                <div class="comp shield">
+                    {{ PC.AC['shield'] }}
+                </div>
+                <div class="label shield">Shield</div>
+                <div class="comp dex">
+                    {{ PC.AC['dex'] }}
+                </div>
+                <div class="label dex">Dex</div>
+                <div class="comp class">
+                    {{ PC.AC['class'] }}
+                </div>
+                <div class="label class">Class</div>
+            </div>
+            <div class="speed">
+                <div class="title">Speed</div>
+                <div class="value">30'</div>
+            </div>
+            <div class="attackblock">
+                <div class="header">
+                    <div class="name">Name</div>
+                    <div class="hit">Atk</div>
+                    <div class="dmg">Damage</div>
+                    <div class="type">T</div>
+                    <div class="range">Range</div>
+                </div>
+                <div class="attacks">
+                    {% for attack in PC.attacks %}
+                    <div class="attack">
+                        <div class="name">{{ attack['name'] }}</div>
+                        <div class="hit">{{ attack['atk'] }}</div>
+                        <div class="dmg">{{ attack['dmg'] }}</div>
+                        <div class="type">{{ attack['type'] }}</div>
+                        <div class="short">{{ attack['shortRange'] }}</div>
+                        <div class="long">{{ attack['longRange'] }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class='combat right'>
+            <div class="health">
+                <div class="hitpoints">
+                    <div class="title">
+                        Hit Points
+                    </div>
+
+                    <div class="current"></div>
+                    <div class="label temp">Temp</div>
+                    <div class="temp"></div>
+                    <div class="label max">Max</div>
+                    <div class="max">{{ PC.health['max'] }}</div>
+
+                </div>
+                <div class="hitdice">
+                    <div class="die">{{ PC.characterClass['hitdie'] }}</div>
+                    <div class="die"></div>
+                    <div class="die"></div>
+                    <div class="die"></div>
+                    <div class="die"></div>
+
+                </div>
+            </div>
+            <div class="deathsaves">
+                <div class="row">
+                    <div class="title">
+                        Save
+                    </div>
+                    <div class="box">&#x25EF;	</div>
+                    <div class="box">&#x25EF;	</div>
+                    <div class="box">&#x25EF;	</div>
+                </div>
+                <div class="row">
+                    <div class="title">
+                        Dead
+                    </div>
+                    <div class="box">&#x25EF;	</div>
+                    <div class="box">&#x25EF;	</div>
+                    <div class="box">&#x25EF;	</div>
+                </div>
+            </div>
+            <div class="spelldc">
+                <div class="title">Spell DC</div>
+                <div class="value" style="color: var( --{{ PC.characterClass['spellcastingAbility'] }}h)">{{ PC.spellDC }}</div>
+            </div>
+        </div>
+        <div class="traits">
+            <div class="specials">
+                <div class="offense">
+                    <div class="header">Special Attacks</div>
+                    <div class="entries">
+                        {% for entry in PC.specAttacks %}
+                        <div class="entry">{{ entry }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="vertical">
+                </div>
+                <div class="defense">
+                    <div class="header">Special Defenses</div>
+                    <div class="entries">
+                        {% for entry in PC.specDefenses %}
+                        <div class="entry">{{ entry }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="features">
+                <div class="header">Features</div>
+                <div class="colheaders">
+                    <div class="lvl">Lvl</div>
+                    <div class="name">Name</div>
+                    <div class="effect">Effect</div>
+                    <div class="time">T</div>
+                </div>
+                <div class="entries">
+                    {% for entry in PC.features %}
+                    <div class="entry">
+                        <div class="lvl">{{ entry['lvl'] }}</div>
+                        <div class="name">{{ entry['name'] }}</div>
+                        <div class="effect">{{ entry['effect'] }}</div>
+                        <div class="time">{{ entry['time'] }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="lists">
+                <div class="languages">
+                    <div class="header">Languages</div>
+                    <div class="list">
+                        {{ PC.languages }}
+                    </div>
+                </div>
+                <div class="vertical"></div>
+                <div class="proficiencies">
+                    <div class="header">Proficiencies</div>
+                    <div class="list">{{ PC.proficiencies }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="skills">
+            <div class="header">Skills</div>
+            {% for sk, st in PC._skills %}
+            <div class="skill">
+                <div class="name">{{ sk }}</div>
+                <div class="mod">{{ PC.skills[sk].value }}</div>
+                <div class="stat" style="color: var(--{{ st }}h);">{{ st }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
