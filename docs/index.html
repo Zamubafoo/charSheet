@@ -2,7 +2,674 @@
 <head>
     <meta charset="utf-8">
     <title>5e Character Sheet</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <style>
+        html, body {
+    width: 8.5in;
+    height: 11in;
+    margin: auto auto;
+    background-color: #ccc;
+    --strl: #f4cccc;
+    --str: #ea9999;
+    --strh: #e06666;
+    --dexl: #fce5cd;
+    --dex: #facb9c;
+    --dexh: #f7b26b;
+    --conl: #fff3cc;
+    --con: #ffe599;
+    /*--conh: #;*/
+    --intl: #d9ead3;
+    --int: #b6d7a8;
+    --inth: #92c47d;
+    --wisl: #c9daf9;
+    --wis: #a4c2f4;
+    --wish: #6e9eeb;
+    --chal: #d9d2e9;
+    --cha: #b4a7d6;
+    --chah: #8e7cc2;
+    --lg: #f3f3f3;
+    --dg: #ccc;
+
+}
+.strl {
+    background-color: var(--strl);
+}
+.dexl {
+    background-color: var(--dexl);
+}
+.conl {
+    background-color: var(--conl);
+}
+.intl {
+    background-color: var(--intl);
+}
+.wisl {
+    background-color: var(--wisl);
+}
+.chal {
+    background-color: var(--chal);
+}
+.str {
+    background-color: var(--str);
+}
+.dex {
+    background-color: var(--dex);
+}
+.con {
+    background-color: var(--con);
+}
+.int {
+    background-color: var(--int);
+}
+.wis {
+    background-color: var(--wis);
+}
+.cha {
+    background-color: var(--cha);
+}
+.sheet {
+    padding: .1in;
+    background-color: #fff;
+    width: 8.3in;
+    height: 10.8in;
+    margin: auto auto;
+    font-family: Roboto;
+    display: grid;
+    grid-template-columns: 1.5in auto 1.5in;
+    grid-template-rows: 1in 3in auto auto;
+    grid-gap: 10px;
+}
+.details {
+    grid-row: 1;
+    grid-column: 1/4;
+    height: 1in;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+
+    text-align: center;
+    line-height: .33in;
+}
+.details .value {
+    overflow-y: auto;
+    font-weight: 300;
+}
+.details .name, .details .alignment, .details .sex, .details .size {
+    grid-row: 1;
+}
+.details .race, .details .exp, .details .deity, .details .hair, .details .height {
+    grid-row: 2;
+}
+.details .class, .details .background, .details .eye, .details .weight {
+    grid-row: 3;
+}
+.details .name.label, .details .race.label, .details .class.label {
+    grid-column: 1;
+}
+.details .name.value, .details .class.value  {
+    grid-column: 2/7;
+}
+.details .race.value {
+    grid-column: 2/5;
+}
+.details .exp.label {
+    grid-column: 5/6;
+}
+.details .exp.value {
+    grid-column: 6/7;
+}
+.details .name.value {
+    font-weight: 900;
+}
+.details .label {
+    background-color: var(--lg);
+    min-width: .5in;
+}
+.stat-bar {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: 8.25in  .33in .33in;
+    grid-row-gap: 10px;
+    text-align: center;
+    line-height: .33in;
+}
+.stat-bar .ability{
+    display: grid;
+    grid-template-rows: .33in repeat(24, .33in);
+    outline: 2px solid black;
+}
+.ability .header {
+    text-transform: uppercase;
+
+    font-weight: 500;
+    background-color: var(--dg);
+}
+.ability .stat{
+    grid-row: span 4;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, .33in);
+}
+.stat .title {
+    grid-row: 1;
+    grid-column: 1/ 4;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: auto 0;
+    font-size: .9em;
+}
+.stat * {
+    margin: auto auto;
+}
+.stat .score {
+    grid-row: 1;
+    grid-column: 4/5;
+    font-weight: 500;
+}
+.stat .save {
+    grid-row: 2/4;
+    grid-column: 1/3;
+    font-weight: 300;
+}
+.stat .mod {
+    grid-row:2/4;
+    grid-column: 3/5;
+    font-size: 1.75em;
+    font-weight: 500;
+}
+.stat .label {
+    grid-row: 4;
+    background-color: white;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin: 0;
+    z-index: 1;
+}
+
+.passive {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    outline: 2px solid black;
+}
+.proficiency, .inspiration {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr;
+    height: .33in;
+    outline: 2px solid black;
+}
+.passive .label, .proficiency .label, .inspiration .label {
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: #ccc;
+}
+.perception.label {
+    border-left: 2px solid black;
+}
+
+
+
+.combat.left {
+    grid-row: 2;
+    grid-column: 2/3;
+    display: grid;
+    grid-template-rows: 1in auto;
+    grid-template-columns: 1in auto 1in ;
+    grid-column-gap: 25px;
+    grid-row-gap: 10px;
+    line-height: .33in;
+}
+.left div .value,.left div .total, .right div .value {
+    font-size: 2em;
+    font-weight: 600;
+}
+.left .initiative {
+    display: grid;
+    outline: 2px solid black;
+
+    text-align: center;
+}
+.initiative .title {
+    font-weight: 500;
+    text-transform: uppercase;
+    grid-row:1;
+    grid-column: 1;
+    background-color: var(--dexl);
+    line-height: .33in;
+    height: .33in;
+}
+.initiative .value {
+    grid-row: 2;
+    grid-column: 1;
+}
+.left .speed {
+    display: grid;
+    outline: 2px solid black;
+
+    text-align: center;
+}
+.speed .title {
+    font-weight: 500;
+    text-transform: uppercase;
+    grid-row: 1;
+    grid-column: 1;
+    background-color: var(--dg);
+    height: .33in;
+}
+.speed .value {
+    grid-row: 2;
+    grid-column: 1;
+}
+.left .armorclass {
+    grid-row: 1;
+    grid-column: 2;
+    outline: 2px solid black;
+    display: grid;
+    grid-template-columns: 2fr repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    text-align: center;
+
+
+}
+.armorclass .title {
+    font-weight: 500;
+    grid-column: 1/7;
+    grid-row: 1;
+    height: .33in;
+    text-transform: uppercase;
+    background-color: var(--dg);
+}
+.armorclass .total {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    margin: auto;
+    line-height: .66in;
+    font-size: 2em;
+
+}
+.armorclass .comp {
+    grid-row: 2;
+    background-color: var(--lg);
+    font-size: .75em;
+
+}
+.armorclass .label {
+    grid-row: 3;
+    background-color: var(--dg);
+    font-size: .7em;
+
+}
+.armorclass .armor {
+    grid-column: 2;
+}
+.armorclass .shield {
+    grid-column: 3;
+}
+.armorclass .dex {
+    grid-column: 4;
+}
+.armorclass .class {
+    grid-column: 5;
+}
+.left .attackblock {
+    grid-row: 2;
+    grid-column: 1/4;
+
+
+    outline: 2px solid black;
+    display: grid;
+    grid-template-rows: .33in 1.5in;
+
+}
+.attackblock .header {
+    display: grid;
+    grid-template-columns: 15fr 6fr 12fr 6fr 5fr;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid black;
+    padding: 0 10px;
+}
+.attackblock .hit {
+    font-weight: 500;
+}
+.attackblock .attacks {
+    display: grid;
+    overflow-y: auto;
+
+}
+.attackblock .attacks::-webkit-scrollbar {
+    display:none;
+}
+.attacks .attack {
+    grid-template-columns: 30fr 12fr 24fr 12fr 5fr 5fr;
+    grid-template-rows: .33in;
+    display: grid;
+    text-align: center;
+    font-weight: 300;
+    padding: 0 10px 0 5px;
+}
+.attacks .attack:nth-child(even) {
+    background-color: var(--lg);
+}
+.attackblock .attack .name {
+    text-align: left;
+
+}
+.combat.right {
+    grid-row: 2;
+    grid-column: 3;
+    line-height: .33in;
+    display: grid;
+    grid-template-rows: 1.35in auto auto;
+    grid-row-gap: 10px;
+    margin: auto;
+}
+.health .hitpoints {
+    outline: 2px solid black;
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: .33in .7in .33in;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+}
+.hitpoints .title {
+    font-weight: 500;
+    grid-row: 1;
+    grid-column: 1/3;
+    background-color: var(--con);
+    text-transform: uppercase;
+    line-height: .33in;
+    height: .33in;
+}
+.hitpoints .current {
+    grid-row: 2;
+    grid-column: 1/3;
+    line-height: .7in;
+    height: .7in;
+    font-size: 2em;
+    font-weight: 600;
+}
+.hitpoints .temp {
+    grid-row: 3;
+    grid-column: 1;
+    background-color: var(--conl);
+    height: .33in;
+    line-height: .33in;
+    z-index: 2;
+}
+.hitpoints .max {
+    grid-row: 3;
+    grid-column: 2;
+    background-color: var(--con);
+    height: .33in;
+    line-height: .33in;
+    z-index: 2;
+}
+.hitpoints .label {
+    grid-row: 3;
+    position: relative;
+    bottom: .22in;
+    background-color: rgba(0,0,0,0);
+    text-transform: uppercase;
+    font-size: .6em;
+    line-height: .33in;
+    z-index: 1;
+}
+.right .health {
+    display: grid;
+    grid-template-columns: 1fr 9fr ;
+    grid-column-gap: 5px;
+    height: 1.36in;
+}
+.health .hitdice {
+    grid-column: 1;
+    grid-row: 1;
+    margin: auto auto;
+
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr;
+    grid-row-gap: 3px;
+}
+.hitdice .die {
+    height: .5cm;
+    margin: auto 0 auto 20px;
+    border-bottom: 1px solid black;
+    line-height: normal;
+}
+.right .deathsaves {
+    display: grid;
+
+    grid-template-rows: .33in .33in;
+    text-align: center;
+}
+.deathsaves .row {
+    display: grid;
+    grid-template-columns: 1fr 3fr 3fr 3fr;
+}
+.deathsaves .row:nth-child(even) {
+    border-top: 1px solid black
+}
+.deathsaves .title {
+    grid-column: 1;
+    font-size: .7em;
+    margin: auto;
+}
+.deathsaves  .box {
+    margin: auto;
+}
+.right .spelldc {
+    outline: 2px solid black;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    text-align: center;
+    line-height: .33in;
+}
+.spelldc .title {
+    grid-row:1;
+    grid-column: 1;
+    font-weight: 500;
+    text-transform: uppercase;
+    height: .33in;
+    background-color: var(--dg);
+}
+.spelldc .value {
+    grid-row: 2;
+    grid-column: 1;
+}
+.traits {
+    grid-row: 3/4;
+    grid-column: 2/3;
+
+    outline: 2px solid black;
+    /*background-color: #ccccff;*/
+    display: grid;
+
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto;
+}
+.traits .header {
+    text-align: center;
+    line-height: .33in;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.traits .specials{
+    display: grid;
+    grid-template-rows: 1.65in;
+    grid-template-columns: 1fr 0fr 1fr;
+}
+.specials .entry {
+    padding: 0 3px;
+}
+.specials .offense {
+    display: grid;
+    grid-template-rows: .33in auto;
+}
+.offense .header {
+    background-color: var(--dg);
+    line-height: .33in;
+    border-bottom: 1px solid black;
+}
+.offense .entries {
+    display: grid;
+    overflow-y: auto;
+}
+.offense .entries::-webkit-scrollbar {
+    display:none
+}
+.offense .entry {
+    border-bottom: 1px solid var(--dg);
+    font-size: .8em;
+    height: .33in;
+}
+.specials .vertical {
+    width: 2px;
+    background-color: black;
+}
+.specials .defense {
+    display: grid;
+    grid-template-rows: .33in auto;
+
+}
+.defense .header {
+    background-color: var(--dg);
+    line-height: .33in;
+    border-bottom: 1px solid black;
+}
+.defense .entries {
+    display: grid;
+    overflow-y: auto;
+}
+.defense .entries::-webkit-scrollbar {
+    display:none
+}
+.defense .entry {
+    border-bottom: 1px solid var(--dg);
+    font-size: .8em;
+    height: .33in;
+}
+.traits .features{
+    display: grid;
+    grid-template-rows: .33in .33in auto;
+}
+.features .header {
+    grid-row: 1;
+    border-top: 2px solid black;
+    background-color: var(--dg);
+    text-transform: uppercase;
+}
+.features .colheaders{
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 1fr 3fr 7fr 1fr;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: var(--lg);
+    border-bottom: 1px solid #444;
+    line-height: .33in;
+}
+.features .entries {
+    grid-row: 3;
+    display: grid;
+    overflow-y: auto;
+    border-bottom: 2px solid black;
+    height: 3.33in;
+}
+.features .entries::-webkit-scrollbar {
+    display:none
+}
+.features .entry {
+    display: grid;
+    grid-template-columns: 1fr 3fr 7fr 1fr;
+    text-align: center;
+    font-size: .8em;
+    height: .33in;
+    line-height: .33in;
+}
+.features .entry:nth-child(even) {
+    background-color: var(--lg);
+}
+.features .entry .effect {
+    text-align: left;
+    line-height: normal;
+}
+.features .entry .time {
+    line-height: normal;
+}
+.traits .lists{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 0fr 2fr;
+}
+.lists > div {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: .33in .66in;
+    text-align: center;
+}
+.lists .languages {
+}
+.lists .vertical {
+    width: 2px;
+    background-color: black;
+}
+.lists .header {
+    background-color: var(--dg);
+}
+.lists .list {
+    margin: auto;
+    font-weight: 300;
+}
+
+.skills {
+    grid-row: 3/4;
+    grid-column: 3;
+    text-align: center;
+
+    display: grid;
+    outline: 2px solid black;
+    line-height: .33in;
+}
+.skills .header {
+    background-color: var(--dg);
+    text-transform: uppercase;
+
+    font-weight: 500;
+
+}
+.skills .skill {
+    font-size: .8em;
+
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    padding: 0 5px;
+}
+.skills .skill .mod {
+    text-align: center;
+
+}
+.skills .skill .name {
+    text-align: left;
+    line-height: .33in;
+    height: .33in;
+    font-size: 11px;
+    font-weight: 300;
+    font-size-adjust: 0.5;
+}
+.skills .skill .stat {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: Roboto Mono;
+}
+.skills .skill:nth-child(odd) {
+    background-color: var(--lg);
+}
+    </style>
     <meta name="viewport" content="height=device-height, initial-scale=1.0">
     <script src="static/js/jquery-3.2.1.slim.min.js"></script>
     <style media="screen">
